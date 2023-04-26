@@ -5,13 +5,7 @@ import { Header } from './Components/Header';
 import { Sort } from './Components/Sort';
 import { Categories } from './Components/Categories';
 import { PizzaItem } from './Components/PizzaItem';
-
-
-
-
-
-
-
+import pizzas from './assets/pizzas.json'
 
 function App() {
   return (
@@ -25,16 +19,7 @@ function App() {
           </div>
           <h2 className='content__title'>Все пиццы</h2>
           <div className='content__items'>
-            <PizzaItem/>
-            <PizzaItem/>
-            <PizzaItem/>
-            <PizzaItem/>
-            <PizzaItem/>
-            <PizzaItem/>
-            <PizzaItem/>
-            <PizzaItem/>
-            <PizzaItem/>
-            <PizzaItem/>
+          {pizzas.map((obj) => <PizzaItem {...obj}/>)}
           </div>
         </div>
       </div>
