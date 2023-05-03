@@ -10,9 +10,15 @@ import { Sceleton } from '../PizzaItem/Skeleton';
 export const Main = () => {
   const [items, setItems] = useState([]);
   const [isLoding, setIsLodaing] = useState(true);
+  const [activeSortElement, setActiveSortElement] = useState({name: 'популярности', sort: 'rating'});
+  const [activeCategory, setActiveCategory] = useState(0);
+
+  const catgory = activeCategory > 0 ? `category=${activeCategory}` : '';
+  const sortBy = activeSortElement.sort;
 
   useEffect(() => {
-    fetch('https://64497c2fb88a78a8f0092e91.mockapi.io/items')
+    setIsLodaing(true)
+    fetch(`https://64497c2fb88a78a8f0092e91.mockapi.io/items?${catgory}&sortBy=${sortBy}&order=desc`)
       .then((res) => {
         return res.json();
       })
@@ -20,12 +26,12 @@ export const Main = () => {
         setItems(arr);
         setIsLodaing(false);
       });
-  }, []);
+  }, [activeCategory, activeSortElement]);
   return (
     <div className='container'>
       <div className='content__top'>
-        <Categories />
-        <Sort />
+        <Categories activeCategory={activeCategory} onChangeCategory={(i) => setActiveCategory(i)}/>
+        <Sort activeSortElement={activeSortElement} changeSortElement={(obj) => setActiveSortElement(obj)}/>
       </div>
       <h2 className='content__title'>Все пиццы</h2>
       <div className='content__items'>
