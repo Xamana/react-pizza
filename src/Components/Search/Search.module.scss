@@ -1,0 +1,38 @@
+.root {
+      position: relative;
+      cursor: pointer;
+}
+
+.input {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 10px 20px;
+      width: 300px;
+      border-radius: 16px;
+      font-size: 16px;
+      padding-left: 36px;
+
+       &:focus {
+            border: 1px solid rgba(0, 0, 0, 0.3)
+       }
+}
+
+.searchIcon {
+      width: 18px;
+      height: 18px;
+      opacity: 0.3;
+      position: absolute;
+      left: 13px;
+      top: 13px;
+}
+
+.closedIcon {
+      opacity: 0.3;
+      width: 18px;
+      height: 18px;
+      position: absolute;
+      right: 10px;
+      top: 13px;
+      &:hover {
+            opacity: 0.8;   
+      }
+}

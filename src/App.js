@@ -5,11 +5,15 @@ import { Header } from './Components/Header';
 import { Main } from './Components/pages/Main';
 import { Cart } from './Components/pages/Cart';
 import { Route, Routes } from 'react-router-dom';
-
+import { useState } from 'react'
+ 
 function App() {
+
+  const [searchValue, setSearchValue] = useState('')
+
   return (
     <div className='wrapper'>
-      <Header />
+      <Header searchValue={searchValue} setSearchValue={setSearchValue}/>
       <div className='content'>
         <Routes>
           <Route path='/' element={<Main/>}/>
