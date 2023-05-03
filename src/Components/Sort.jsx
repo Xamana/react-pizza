@@ -8,9 +8,12 @@ export const Sort = ({activeSortElement, changeSortElement}) => {
 
   
   const list =[
-    {name: 'популярности', sort: 'rating'},
-    {name: 'цене', sort: 'price'},
-    {name: 'алфавиту', sort: 'title'}
+    {name: 'популярности (ASC)', sort: 'rating'},
+    {name: 'популярности (DESC)', sort: '-rating'},
+    {name: 'цене (ASC)', sort: 'price'},
+    {name: 'цене (DESC)', sort: '-price'},
+    {name: 'алфавиту (ASC)', sort: 'title'},
+    {name: 'алфавиту (DESC)', sort: '-title'}
     ];
 
   const handlePopup = (obj) => {

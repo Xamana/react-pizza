@@ -13,12 +13,16 @@ export const Main = () => {
   const [activeSortElement, setActiveSortElement] = useState({name: 'популярности', sort: 'rating'});
   const [activeCategory, setActiveCategory] = useState(0);
 
-  const catgory = activeCategory > 0 ? `category=${activeCategory}` : '';
-  const sortBy = activeSortElement.sort;
+  
 
   useEffect(() => {
-    setIsLodaing(true)
-    fetch(`https://64497c2fb88a78a8f0092e91.mockapi.io/items?${catgory}&sortBy=${sortBy}&order=desc`)
+    setIsLodaing(true);
+
+    const catgory = activeCategory > 0 ? `category=${activeCategory}` : '';
+    const sortBy = activeSortElement.sort.replace('-', '');
+    const order = activeSortElement.sort.includes('-') ? 'asc' : 'desc';
+    
+    fetch(`https://64497c2fb88a78a8f0092e91.mockapi.io/items?${catgory}&sortBy=${sortBy}&order=${order}`)
       .then((res) => {
         return res.json();
       })
