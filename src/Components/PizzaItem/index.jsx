@@ -6,7 +6,8 @@ export const PizzaItem = ({title, sizes, price, imageUrl, types}) => {
   const [activeSize, setActiveSize] = useState(0);
   const [activeType, setActiveType] = useState(types[0]);
       return (
-        <div className='pizza-block'>
+        <div className='content__items--wrapper'>
+           <div className='pizza-block'>
         <img
           className='pizza-block__image'
           src='https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg'
@@ -44,5 +45,7 @@ export const PizzaItem = ({title, sizes, price, imageUrl, types}) => {
           </div>
         </div>
       </div>
+        </div>
+       
       )
     }
