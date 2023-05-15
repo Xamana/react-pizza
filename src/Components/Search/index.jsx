@@ -2,14 +2,36 @@
 
 import React from 'react';
 import styles from './Search.module.scss';
+import debounce from 'lodash.debounce';
+import { SearchContext } from '../../App';
 
 export const Search = (props) => {
-  const { searchValue, setSearchValue } = props;
+  const { setSearchValue } = React.useContext(SearchContext);
+  const [value, setValue] = React.useState('')
+  const searchRef = React.useRef(null);
+
+  const onSearchHandler = () => {
+    setSearchValue('');
+    searchRef.current.focus();
+  }
+
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+        setSearchValue(str)
+      }, 500),
+      []
+    )
+  
+  const onChangeInput = async (e) => {
+    setValue(e.target.value);
+    updateSearchValue(e.target.value);
+  }
+
   return (
     <div className={styles.root}>
       <svg
         className={styles.searchIcon}
-        enable-background='new 0 0 32 32'
+        enableBackground='new 0 0 32 32'
         id='Glyph'
         version='1.1'
         viewBox='0 0 32 32'
@@ -21,19 +43,20 @@ export const Search = (props) => {
       </svg>
       <input
         className={styles.input}
+        ref={searchRef}
         placeholder='Поиск пиццы...'
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        value={value}
+        onChange={(e) => onChangeInput(e)}
       />
-      {searchValue && (<svg
-        onClick={() => setSearchValue('')}
+      {value && (<svg
+        onClick={onSearchHandler}
         className={styles.closedIcon}
         fill='none'
         height='24'
         stroke='currentColor'
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        stroke-width='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='2'
         viewBox='0 0 24 24'
         width='24'
         xmlns='http://www.w3.org/2000/svg'

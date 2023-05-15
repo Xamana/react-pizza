@@ -1,23 +1,26 @@
 /** @format */
 
+
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveSortElement } from '../redux/slices/filterSlice';
 
-export const Sort = ({activeSortElement, changeSortElement}) => {
+const list =[
+  {name: 'популярности (ASC)', sort: 'rating'},
+  {name: 'популярности (DESC)', sort: '-rating'},
+  {name: 'цене (ASC)', sort: 'price'},
+  {name: 'цене (DESC)', sort: '-price'},
+  {name: 'алфавиту (ASC)', sort: 'title'},
+  {name: 'алфавиту (DESC)', sort: '-title'}
+  ];
+
+export const Sort = () => {
   const [isOpen, setIsOpen] = useState(false);
- 
-
+  const activeSortElement = useSelector(state => state.filter.activeSortElement)
+  const dispatch = useDispatch();
   
-  const list =[
-    {name: 'популярности (ASC)', sort: 'rating'},
-    {name: 'популярности (DESC)', sort: '-rating'},
-    {name: 'цене (ASC)', sort: 'price'},
-    {name: 'цене (DESC)', sort: '-price'},
-    {name: 'алфавиту (ASC)', sort: 'title'},
-    {name: 'алфавиту (DESC)', sort: '-title'}
-    ];
-
   const handlePopup = (obj) => {
-    changeSortElement(obj);
+    dispatch(setActiveSortElement(obj));
     setIsOpen(false)
   }
 
