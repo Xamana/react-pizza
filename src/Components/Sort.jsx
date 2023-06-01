@@ -1,31 +1,46 @@
 /** @format */
 
-
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveSortElement } from '../redux/slices/filterSlice';
+import React from 'react';
 
-const list =[
-  {name: 'популярности (ASC)', sort: 'rating'},
-  {name: 'популярности (DESC)', sort: '-rating'},
-  {name: 'цене (ASC)', sort: 'price'},
-  {name: 'цене (DESC)', sort: '-price'},
-  {name: 'алфавиту (ASC)', sort: 'title'},
-  {name: 'алфавиту (DESC)', sort: '-title'}
-  ];
+export const list = [
+  { name: 'популярности (ASC)', sort: 'rating' },
+  { name: 'популярности (DESC)', sort: '-rating' },
+  { name: 'цене (ASC)', sort: 'price' },
+  { name: 'цене (DESC)', sort: '-price' },
+  { name: 'алфавиту (ASC)', sort: 'title' },
+  { name: 'алфавиту (DESC)', sort: '-title' },
+];
 
 export const Sort = () => {
+  const sortRef = useRef();
   const [isOpen, setIsOpen] = useState(false);
-  const activeSortElement = useSelector(state => state.filter.activeSortElement)
+  const activeSortElement = useSelector((state) => state.filter.activeSortElement);
   const dispatch = useDispatch();
-  
+
   const handlePopup = (obj) => {
     dispatch(setActiveSortElement(obj));
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
+
+  
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setIsOpen(false);
+      }
+    };
+    document.body.addEventListener('click', handleClickOutside);
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div className='sort'>
+    <div ref={sortRef} className='sort'>
       <div className='sort__label'>
         <svg
           width='10'
@@ -45,10 +60,10 @@ export const Sort = () => {
         <div className='sort__popup'>
           <ul>
             {list.map((obj, id) => (
-              <li key={id}
-               className={activeSortElement === id ? 'active' : ''}
-               onClick={() => handlePopup(obj)}
-               >
+              <li
+                key={id}
+                className={activeSortElement === id ? 'active' : ''}
+                onClick={() => handlePopup(obj)}>
                 {obj.name}
               </li>
             ))}
