@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Sort } from '../Sort';
 import { Categories } from '../Categories';
@@ -72,6 +72,14 @@ export const Main = (props) => {
     isMounted.current = true;
   }, [activeCategory, activeSortElement, searchValue]);
 
+  const skeleton = [...new Array(6)].map((_, i) => <Sceleton key={i} />)
+
+  const  pizzas = items.map((obj, i) => (
+    <Link key={i} to={`/pizza/${obj.id}`}>
+      <PizzaItem  {...obj} />
+    </Link>
+  ))
+
   return (
     <div className='container'>
       <div className='content__top'>
@@ -91,9 +99,9 @@ export const Main = (props) => {
             <p>Пиццы не загрузились</p>
           </div>
         ) : status === 'loading' ? (
-          [...new Array(6)].map((_, i) => <Sceleton key={i} />)
+          skeleton
         ) : (
-          items.map((obj, i) => <PizzaItem key={i} {...obj} />)
+          pizzas
         )}
       </div>
     </div>
