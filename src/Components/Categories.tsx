@@ -1,7 +1,13 @@
 /** @format */ 
+import React from 'react';
+
 const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
-export const Categories = (props) => {
+type CategoriesProps = {
+  activeCategory: number;
+   onChangeCategory: (i: number) => void;
+}
+export const Categories: React.FC<CategoriesProps> = (props) => {
   const {activeCategory, onChangeCategory} = props;
   return (
     <div className='categories'>
@@ -11,3 +17,5 @@ export const Categories = (props) => {
     </div>
   );
 };
+
+ 

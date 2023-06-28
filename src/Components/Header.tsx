@@ -7,9 +7,9 @@ import { selectCart } from '../redux/slices/cartSlice';
 import pizzaLogo from '../assets/img/pizza-logo.svg';
 import { Search } from './Search';
 
-export const Header = (props) => {
+export const Header = () => {
   const { items, totalPrice } = useSelector(selectCart);
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
  
   const { pathname } = useLocation();
 

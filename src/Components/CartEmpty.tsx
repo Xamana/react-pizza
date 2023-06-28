@@ -7,9 +7,9 @@ import cartEmptyImg from '../assets/img/empty-cart.png';
 export const CartEmpty = () => {
   return (
     <>
-      <div class='cart cart--empty'>
+      <div className='cart cart--empty'>
         <h2>
-          Корзина пустая <icon>😕</icon>
+          Корзина пустая <span>😕</span>
         </h2>
         <p>
           Вероятней всего, вы не заказывали ещё пиццу.

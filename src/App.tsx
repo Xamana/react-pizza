@@ -1,7 +1,6 @@
 /** @format */
 
 import './scss/app.scss';
-import { Header } from './Components/Header';
 import { Main } from './Components/pages/Main';
 import { Cart } from './Components/pages/Cart';
 import { Route, Routes } from 'react-router-dom';

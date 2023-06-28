@@ -2,10 +2,19 @@
 
 import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveSortElement } from '../redux/slices/filterSlice';
+import { setActiveSortElement, selectSort } from '../redux/slices/filterSlice';
 import React from 'react';
 
-export const list = [
+type SortListItem = {
+  name: string;
+  sort: string;
+}
+
+type PopupClick = MouseEvent & {
+  path: Node[];
+}
+
+export const sortList: SortListItem[] = [
   { name: 'популярности (ASC)', sort: 'rating' },
   { name: 'популярности (DESC)', sort: '-rating' },
   { name: 'цене (ASC)', sort: 'price' },
@@ -15,12 +24,12 @@ export const list = [
 ];
 
 export const Sort = () => {
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const activeSortElement = useSelector((state) => state.filter.activeSortElement);
+  const activeSortElement = useSelector(selectSort);
   const dispatch = useDispatch();
 
-  const handlePopup = (obj) => {
+  const handlePopup = (obj: SortListItem) => {
     dispatch(setActiveSortElement(obj));
     setIsOpen(false);
   };
@@ -28,8 +37,10 @@ export const Sort = () => {
   
 
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.composedPath().includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      const _event = event as  PopupClick;
+
+      if (sortRef.current && !_event.composedPath().includes(sortRef.current)) {
         setIsOpen(false);
       }
     };
@@ -59,7 +70,7 @@ export const Sort = () => {
       {isOpen && (
         <div className='sort__popup'>
           <ul>
-            {list.map((obj, id) => (
+            {sortList.map((obj, id) => (
               <li
                 key={id}
                 className={activeSortElement === id ? 'active' : ''}

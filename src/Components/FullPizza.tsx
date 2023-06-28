@@ -4,8 +4,12 @@ import axios from 'axios';
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-export const FullPizza = () => {
-  const [pizza, setPizza] = React.useState([]);
+export const FullPizza: React.FC = () => {
+  const [pizza, setPizza] = React.useState<{
+    imageUrl: string;
+    title: string;
+    price: number;
+  }>();
   const { id } = useParams();
   const navigate = useNavigate()
 
@@ -16,7 +20,7 @@ export const FullPizza = () => {
         setPizza(data);
         console.log(data);
       } catch (error) {
-        alert('ошибка');
+        alert('Ошибка получения питсов');
         navigate('/')
       }
     };
@@ -25,9 +29,7 @@ export const FullPizza = () => {
 
   if (!pizza) {
     return (
-      <>
-        <h2>Загрузка...</h2>
-      </>
+      <h2>Загрузка...</h2>
     );
   }
 

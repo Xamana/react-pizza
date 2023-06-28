@@ -1,20 +1,20 @@
 /** @format */
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import qs from 'qs';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Sort } from '../Sort';
 import { Categories } from '../Categories';
 import { PizzaItem } from '../PizzaItem';
 import { Sceleton } from '../PizzaItem/Skeleton';
-import { list } from '../Sort';
+import { sortList } from '../Sort';
 import { fetchPizzas, selectPizzaData } from '../../redux/slices/pizzaSlice';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveCategory, setFilters, selectFilter } from '../../redux/slices/filterSlice';
 
-export const Main = (props) => {
+export const Main: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -31,6 +31,7 @@ export const Main = (props) => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         catgory,
         sortBy,
@@ -41,10 +42,14 @@ export const Main = (props) => {
     window.scrollTo(0, 0);
   };
 
+  const onChangeCategory= (activeCategoryIndex: number) => {
+    dispatch(setActiveCategory(activeCategoryIndex))
+  }
+
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      const sort = list.find((obj) => obj.sort === params.sortProperty);
+      const sort = sortList.find((obj) => obj.sort === params.sortProperty);
 
       dispatch(setFilters({ ...params, sort }));
       isSearch.current = true;
@@ -74,10 +79,8 @@ export const Main = (props) => {
 
   const skeleton = [...new Array(6)].map((_, i) => <Sceleton key={i} />)
 
-  const  pizzas = items.map((obj, i) => (
-    <Link key={i} to={`/pizza/${obj.id}`}>
-      <PizzaItem  {...obj} />
-    </Link>
+  const  pizzas = items.map((obj: any, i: number) => (
+      <PizzaItem  {...obj} key={i}/>
   ))
 
   return (
@@ -85,9 +88,7 @@ export const Main = (props) => {
       <div className='content__top'>
         <Categories
           activeCategory={activeCategory}
-          onChangeCategory={(activeCategoryIndex) =>
-            dispatch(setActiveCategory(activeCategoryIndex))
-          }
+          onChangeCategory={onChangeCategory}
         />
         <Sort />
       </div>
